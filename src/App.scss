@@ -1,4 +1,27 @@
 body {
     font: 16px/1.5 "Helvetica Neue", Sans-Serif;
+    margin: 0;
+    padding: 0;
+}
+
+header {
+    background: papayawhip;
+
+    h1 {
+        font-size: 1rem;
+        margin: 0;
+        padding: 1rem;
+        position: relative;
+
+        a {
+            color: blue;
+            display: inline-block;
+            float: right;
+            text-decoration: none;
+        }
+    }
+}
+
+main {
     padding: 1rem;
 }

@@ -1,34 +1,30 @@
 import React, { Component, Fragment } from 'react';
-import { BrowserRouter, Switch, Route, Link } from 'react-router-dom';
+import { BrowserRouter, Switch, Route } from 'react-router-dom';
 
-import Blocks from './components/Blocks';
+import Header from './components/Header';
+import Main from './components/Main';
 
 import './App.css';
 
 class App extends Component {
   render() {
     return (
-      <Fragment>
-        <header>
-            <h1>Animation playground</h1>
-        </header>
-        <main>
-            <BrowserRouter>
-                <Switch>
-                    <Route path="/blocks" component={Blocks} />
-                    <Route>
-                        <ul>
-                            <li>
-                                <Link to="/blocks">
-                                    Blocks
-                                </Link>
-                            </li>
-                        </ul>
-                    </Route>
-                </Switch>
-            </BrowserRouter>
-        </main>
-      </Fragment>
+        <BrowserRouter>
+            <Switch>
+                <Route exact path="/">
+                    <Fragment>
+                        <Header />
+                        <Main />
+                    </Fragment>
+                </Route>
+                <Route>
+                    <Fragment>
+                        <Header showBackLink={true} />
+                        <Main />
+                    </Fragment>
+                </Route>
+            </Switch>
+        </BrowserRouter>
     );
   }
 }
