@@ -58,7 +58,7 @@ class Block extends Component {
     render() {
         let { background } = this.state;
 
-        // define Item here so each block gets a differnt color
+        // define Item here so each block gets a different color
         const Item = styled.div`
             background: ${background};
             box-shadow: rgba(0, 0, 0, 0.25) 0 4px 8px;
