@@ -47,8 +47,7 @@ class Block extends Component {
     }
 
     _animate() {
-        let { delay, direction, duration, easing, elasticity, loop, rotate, scaleX, scaleY, translateX, translateY } = this.state;
-        anime({ targets: this.targets, delay, direction, duration, easing, elasticity, loop, rotate, scaleX, scaleY, translateX, translateY });
+        anime({ targets: this.targets, ...this.state });
     }
 
     componentDidMount() {
