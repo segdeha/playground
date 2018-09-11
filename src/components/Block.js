@@ -6,7 +6,11 @@ import { randomColor } from '../lib/random';
 
 class Block extends Component {
     directions = ['alternate', 'reverse'];
-    easings = ['easeInQuad', 'easeOutQuad', 'easeInOutQuad', 'easeInCubic', 'easeOutCubic', 'easeInOutCubic', 'easeInQuart', 'easeOutQuart', 'easeInOutQuart', 'easeInQuint', 'easeOutQuint', 'easeInOutQuint', 'easeInSine', 'easeOutSine', 'easeInOutSine', 'easeInExpo', 'easeOutExpo', 'easeInOutExpo', 'easeInCirc', 'easeOutCirc', 'easeInOutCirc', 'easeInBack', 'easeOutBack', 'easeInOutBack', 'easeInElastic', 'easeOutElastic', 'easeInOutElastic'];
+    easings = {
+        base: 'ease',
+        directions: ['In', 'Out', 'InOut'],
+        curves: ['Quad', 'Cubic', 'Quart', 'Quint', 'Sine', 'Expo', 'Back', 'Circ', 'Elastic']
+    };
 
     constructor(props) {
         super(props);
@@ -15,35 +19,55 @@ class Block extends Component {
         let delay = anime.random(0, 250);
         let direction = this.directions[anime.random(0, this.directions.length - 1)];
         let duration = anime.random(500, 2000);
-        let easing = this.easings[anime.random(0, this.easings.length - 1)];
+        let easing = this._randomEasing();
         let elasticity = anime.random(0, 1000);
         let loop = true;
         let rotate = `${anime.random(90, 450)}deg`;
-        let scaleRange = { min: 50, max: 150 };
-        let scaleFactor = 100;
-        let scaleX = [];
-        let scaleY = [];
-        let translateX = [];
-        let translateY = [];
-        for (let i = 0; i < 10; i += 1) {
-            scaleX.push(this._keyframe(scaleRange, scaleFactor));
-            scaleY.push(this._keyframe(scaleRange, scaleFactor));
-            translateX.push(this._keyframe());
-            translateY.push(this._keyframe());
-        }
+        let scaleX = this._generateKeyframes(10, { min: 50, max: 150 }, 100);
+        let scaleY = this._generateKeyframes(10, { min: 50, max: 150 }, 100);
+        let translateX = this._generateKeyframes();
+        let translateY = this._generateKeyframes();
 
-        this.state = { background, delay, direction, duration, easing, elasticity, loop, rotate, scaleX, scaleY, translateX, translateY };
+        this.state = {
+            background,
+            delay,
+            direction,
+            duration,
+            easing,
+            elasticity,
+            loop,
+            rotate,
+            scaleX,
+            scaleY,
+            translateX,
+            translateY
+        };
 
         this._animate = this._animate.bind(this);
     }
 
-    _keyframe(range = { min: -50, max: 50 }, factor = 1) {
+    _randomEasing() {
+        let base = this.easings.base;
+        let direction = this.easings.directions[anime.random(0, this.easings.directions.length - 1)];
+        let curve = this.easings.curves[anime.random(0, this.easings.curves.length - 1)];
+        return `${base}${direction}${curve}`;
+    }
+
+    _keyframe(range, factor) {
         let delay = anime.random(0, 250);
         let duration = anime.random(500, 2000);
-        let easing = this.easings[anime.random(0, this.easings.length - 1)];
+        let easing = this._randomEasing();
         let elasticity = anime.random(0, 1000);
         let value = anime.random(range.min, range.max) / factor;
         return { delay, duration, easing, elasticity, value };
+    }
+
+    _generateKeyframes(num = 10, range = { min: -50, max: 50 }, factor = 1) {
+        let keyframes = [];
+        for (let i = 0; i < num; i += 1) {
+            keyframes[i] = this._keyframe(range, factor);
+        }
+        return keyframes;
     }
 
     _animate() {
